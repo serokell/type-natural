@@ -2,7 +2,9 @@
 {-# LANGUAGE FlexibleContexts, FlexibleInstances, GADTs, InstanceSigs      #-}
 {-# LANGUAGE KindSignatures, MultiParamTypeClasses, PolyKinds, RankNTypes  #-}
 {-# LANGUAGE ScopedTypeVariables, StandaloneDeriving, TemplateHaskell      #-}
-{-# LANGUAGE TypeFamilies, TypeInType, TypeOperators, UndecidableInstances #-}
+{-# LANGUAGE TypeApplications, TypeFamilies, TypeInType, TypeOperators     #-}
+{-# LANGUAGE UndecidableInstances                                          #-}
+
 module Data.Type.Natural.Definitions
        (module Data.Type.Natural.Definitions,
         module Data.Singletons.Prelude,
@@ -10,6 +12,7 @@ module Data.Type.Natural.Definitions
        ) where
 import Data.Type.Natural.Singleton.Compat
 
+--import Data.Promotion.Prelude.Enum
 import Data.Singletons.Prelude
 import Data.Singletons.Prelude.Enum
 import Data.Singletons.TH

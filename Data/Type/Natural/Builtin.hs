@@ -35,14 +35,13 @@ import Data.Type.Natural.Class
 
 import           Data.Singletons.Decide       (SDecide (..))
 import           Data.Singletons.Decide       (Decision (..))
-import           Data.Singletons.Prelude      (Sing (..), SingKind(..))
+import           Data.Singletons.Prelude      (SingKind(..), SBool(..))
 import           Data.Singletons.Prelude      (SingI (..))
 import           Data.Singletons.Prelude.Enum (PEnum (..), SEnum (..))
-import           Data.Singletons.Prelude.Ord  (POrd (..), SOrd (..))
 import           Data.Singletons.TH           (sCases)
 import           Data.Singletons.TypeLits     (withKnownNat)
 import           Data.Type.Equality           ((:~:) (..))
-import           Data.Type.Natural            (Nat (S, Z), Sing (SS, SZ))
+import           Data.Type.Natural            (Nat (S, Z), SNat(SS, SZ))
 import qualified Data.Type.Natural            as PN
 import           Data.Void                    (absurd)
 import           Data.Void                    (Void)
@@ -383,6 +382,7 @@ instance PeanoOrder TL.Nat where
                      =~= SEQ
     SGT -> eliminate $
            start SLT === sCompare n m `because` sym (leqToLT n m w)
+                   --  === sFlipOrdering (sCompare n m) `because` sym (flipCompare n m)
                      =~= SGT
     SLT -> Refl
 
@@ -427,11 +427,14 @@ instance PeanoOrder TL.Nat where
 
   lneqSuccLeq n m =
     case sCompare n m of
-      SEQ ->
+      SEQ -> Refl
+      -- Why do we need this prove ?
+      {-
         start (n %< m)
           =~= SFalse
           === (sSucc n %<= n) `because` sym (succLeqAbsurd' n)
-          === (sSucc n %<= m) `because` sLeqCongR (sSucc n) (eqToRefl n m Refl)
+
+          === (sSucc n %<= m) `because` sLeqCongR (sSucc n) (eqToRefl n m Refl) -}
       SLT -> withWitness (ltToSuccLeq n m Refl) $
         start (n %< m)
           =~= STrue
@@ -440,6 +443,11 @@ instance PeanoOrder TL.Nat where
         case sSucc n %<= m of
           SFalse -> Refl
           STrue  -> eliminate $ succLeqToLT n m Witness
+
+  minusPlus n m Witness = case sCompare n m of
+    SEQ -> Refl
+    SLT -> Refl
+    SGT -> Refl
 
 -- instance Monomorphicable (Sing :: TL.Nat -> *) where
 --   type MonomorphicRep (Sing :: TL.Nat -> *) = Integer

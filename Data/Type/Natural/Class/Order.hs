@@ -1,7 +1,9 @@
 {-# LANGUAGE DataKinds, EmptyCase, ExplicitForAll, ExplicitNamespaces       #-}
 {-# LANGUAGE FlexibleContexts, FlexibleInstances, GADTs, KindSignatures     #-}
 {-# LANGUAGE MultiParamTypeClasses, PatternSynonyms, PolyKinds, RankNTypes  #-}
-{-# LANGUAGE ScopedTypeVariables, TemplateHaskell, TypeFamilies, TypeInType #-}
+{-# LANGUAGE ScopedTypeVariables, TemplateHaskell, TypeApplications         #-}
+{-# LANGUAGE TypeFamilies, TypeInType                                       #-}
+
 module Data.Type.Natural.Class.Order
        (PeanoOrder(..), DiffNat(..), LeqView(..),
         FlipOrdering, sFlipOrdering, coerceLeqL, coerceLeqR,
@@ -21,11 +23,11 @@ import Data.Type.Natural.Singleton.Compat (type (<), type (<=), type (<=@#@$),
                                            type MinSym0, type MinSym1, type MinSym2,
                                            type MaxSym0, type MaxSym1, type MaxSym2,
                                            type CompareSym0, type CompareSym1, type CompareSym2,
-                                           Sing (SLT, SEQ, SGT), SOrd(..), POrd(..),
+                                           SOrdering(..), SOrd(..), POrd(..),
                                            LTSym0, GTSym0, EQSym0,
                                            (%<), (%<=), (%>), (%>=))
 
-import Data.Singletons.Prelude      (Sing (SFalse, STrue), sing, withSingI)
+import Data.Singletons.Prelude      (SBool (..), Sing,  sing, withSingI)
 import Data.Singletons.Prelude.Enum (Pred, SEnum (..), Succ)
 import Data.Singletons.TH           (singletonsOnly)
 import Data.Type.Equality           ((:~:) (..))

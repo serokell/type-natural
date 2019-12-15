@@ -3,7 +3,7 @@
 {-# OPTIONS_GHC -Wno-warnings-deprecations #-}
 -- | Module providing the same API as 'Data.Type.Ordinal' but specialised to
 --   peano numeral @'Nat'@.
---   
+--
 --   Since 0.7.0.0
 module Data.Type.Ordinal.Peano
        ( -- * Data-types and pattern synonyms
@@ -24,7 +24,6 @@ module Data.Type.Ordinal.Peano
 import Data.Type.Natural.Singleton.Compat
 
 import Numeric.Natural (Natural)
-import           Data.Singletons.Prelude      (SingI, Sing (..))
 import           Data.Singletons.Prelude.Enum (PEnum (..))
 import qualified Data.Type.Ordinal            as O
 import           Data.Type.Natural
@@ -37,14 +36,14 @@ import           Language.Haskell.TH.Quote    (QuasiQuoter)
 -- So, @Ordinal n@ has exactly n inhabitants. So especially @Ordinal 'Z@ is isomorphic to @Void@.
 -- This module exports a variant of polymorphic @'Data.Type.Ordinal.Ordinal'@
 -- specialised to Peano numeral @'Nat'@.
---   
+--
 --   Since 0.7.0.0
 type Ordinal (n :: Nat) = O.Ordinal n
 
 -- | We provide specialised version of constructor @'O.OLt'@ as type synonym @'OLt'@.
 --   In some case, GHC warns about incomplete pattern using pattern  @'OLt'@,
 --   but it is due to the limitation of GHC's current exhaustiveness checker.
---   
+--
 --   Since 0.7.0.0
 pattern OLt :: () => forall  (n1 :: Nat). ((n1 < t) ~ 'True)
             => Sing n1 -> O.Ordinal t
@@ -52,14 +51,14 @@ pattern OLt n = O.OLt n
 {-# COMPLETE OLt #-}
 
 -- | Pattern synonym representing the 0-th ordinal.
---   
+--
 --   Since 0.7.0.0
 pattern OZ :: forall  (n :: Nat). ()
            => ('Z < n) ~ 'True => O.Ordinal n
 pattern OZ = O.OZ
 
 -- | Pattern synonym @'OS' n@ represents (n+1)-th ordinal.
---   
+--
 --   Since 0.7.0.0
 pattern OS :: forall (t :: Nat). (SingI t)
            => () => O.Ordinal t -> O.Ordinal (Succ t)
@@ -79,28 +78,28 @@ pattern OS n = O.OS n
 -}
 
 -- | Quasiquoter for ordinal indexed by Peano numeral @'Data.Type.Natural.Nat'@.
---   
+--
 --   Since 0.7.0.0
 od :: QuasiQuoter
 od = O.odLit
 {-# INLINE od #-}
 
 -- | 'sNatToOrd'' @n m@ injects @m@ as @Ordinal n@.
---   
+--
 --   Since 0.7.0.0
 sNatToOrd' :: (m < n) ~ 'True => Sing n -> Sing m -> Ordinal n
 sNatToOrd' = O.sNatToOrd'
 {-# INLINE sNatToOrd' #-}
 
 -- | 'sNatToOrd'' with @n@ inferred.
---   
+--
 --   Since 0.7.0.0
 sNatToOrd :: (SingI n, (m < n) ~ 'True) => Sing m -> Ordinal n
 sNatToOrd = O.sNatToOrd
 {-# INLINE sNatToOrd #-}
 
 -- | Convert ordinal into @Int@.
---   
+--
 --   Since 0.7.0.0
 ordToInt :: Ordinal n -> Int
 ordToInt = O.ordToInt

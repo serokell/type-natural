@@ -8,7 +8,7 @@ module Data.Type.Natural.Class
 import Data.Type.Natural.Class.Arithmetic
 import Data.Type.Natural.Class.Order
 
-import Data.Singletons.Prelude   (FromInteger, Sing, sing)
+import Data.Singletons.Prelude   (Sing, sing)
 import Language.Haskell.TH       (ExpQ, TypeQ, litT, numTyLit, sigT)
 import Language.Haskell.TH.Quote (QuasiQuoter (..))
 

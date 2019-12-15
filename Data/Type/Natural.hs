@@ -11,7 +11,7 @@ module Data.Type.Natural (-- * Re-exported modules.
                           Nat(..),
                           SSym0, SSym1, ZSym0,
                           -- | Singleton type for 'Nat'.
-                          SNat, Sing (SZ, SS),
+                          SNat (..),
                           -- ** Arithmetic functions and their singletons.
                           min, Min, sMin, max, Max, sMax,
                           MinSym0, MinSym1, MinSym2,
@@ -23,7 +23,7 @@ module Data.Type.Natural (-- * Re-exported modules.
                           (%*), type (-),
                           type (**), (%**),
                           type (-@#@$), type (-@#@$$), type (-@#@$$$),
-                          (%-), 
+                          (%-),
                           -- ** Type-level predicate & judgements
                           Leq(..), type (<=), LeqInstance,
                           boolToPropLeq, boolToClassLeq, propToClassLeq,
